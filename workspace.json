@@ -1,7 +1,144 @@
 {
   "version": 2,
-  "projects": {},
+  "projects": {
+    "callreport": {
+      "projectType": "application",
+      "root": "apps/callreport",
+      "sourceRoot": "apps/callreport/src",
+      "prefix": "citi.cpb.frontend",
+      "targets": {
+        "build": {
+          "executor": "@angular-devkit/build-angular:browser",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/callreport",
+            "index": "apps/callreport/src/index.html",
+            "main": "apps/callreport/src/main.ts",
+            "polyfills": "apps/callreport/src/polyfills.ts",
+            "tsConfig": "apps/callreport/tsconfig.app.json",
+            "assets": [
+              "apps/callreport/src/favicon.ico",
+              "apps/callreport/src/assets"
+            ],
+            "styles": ["apps/callreport/src/styles.css"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "apps/callreport/src/environments/environment.ts",
+                  "with": "apps/callreport/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "executor": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "callreport:build:production"
+            },
+            "development": {
+              "browserTarget": "callreport:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "executor": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "callreport:build"
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "apps/callreport/src/**/*.ts",
+              "apps/callreport/src/**/*.html"
+            ]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/callreport"],
+          "options": {
+            "jestConfig": "apps/callreport/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "callreport-e2e": {
+      "root": "apps/callreport-e2e",
+      "sourceRoot": "apps/callreport-e2e/src",
+      "projectType": "application",
+      "targets": {
+        "e2e": {
+          "executor": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/callreport-e2e/cypress.json",
+            "devServerTarget": "callreport:serve:development",
+            "tsConfig": "apps/callreport-e2e/tsconfig.json"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "callreport:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["apps/callreport-e2e/**/*.{js,ts}"]
+          }
+        }
+      }
+    }
+  },
   "cli": {
-    "defaultCollection": "@nrwl/workspace"
-  }
+    "defaultCollection": "@nrwl/angular"
+  },
+  "generators": {
+    "@nrwl/angular:application": {
+      "style": "css",
+      "linter": "eslint",
+      "unitTestRunner": "jest",
+      "e2eTestRunner": "cypress"
+    },
+    "@nrwl/angular:library": {
+      "style": "css",
+      "linter": "eslint",
+      "unitTestRunner": "jest"
+    },
+    "@nrwl/angular:component": {
+      "style": "css"
+    }
+  },
+  "defaultProject": "callreport"
 }
